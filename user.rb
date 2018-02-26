@@ -1,7 +1,7 @@
 class User
   attr_accessor :bank, :current_cards
 
-  def initialize(name = 'dealer')
+  def initialize(name = 'Dealer')
     @bank = 100
     @current_cards = []
     @name = name

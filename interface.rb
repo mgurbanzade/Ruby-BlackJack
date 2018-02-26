@@ -18,6 +18,16 @@ class Interface
     ask_show(:my_cards)
   end
 
+  def reveal(player, controller, dealer)
+    division_line
+    player_cards(player.show_cards)
+    player_score(controller.score(player))
+    division_line
+    dealer_cards(dealer.show_cards)
+    dealer_score(controller.score(dealer))
+    division_line
+  end
+
   def intro_messages
     ask_show(:greet)
     ask_show(:start)

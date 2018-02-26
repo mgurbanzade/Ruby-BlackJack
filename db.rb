@@ -25,6 +25,5 @@ ASK_SHOW = {
   nah: '2) Nope.',
   dealer_reveal: 'My cards:',
   draw: 'Draw! Good 4 ya.',
-  your_turn: 'Your Turn!',
-  bye: 'Bye-bye!'
+  your_turn: 'Your Turn!'
 }.freeze
