@@ -1,6 +1,5 @@
 module PlayerMethods
   def player_actions
-    view.show_player_actions
     player_action = gets.chomp.to_i
     control_player_actions(player_action)
   end

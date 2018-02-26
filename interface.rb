@@ -9,11 +9,11 @@ class Interface
     ask_show(:name)
   end
 
-  def start_messages(bet, bank, cards, score)
+  def start_messages(bet, player, score)
     division_line
     ask_show(:bet, "$#{bet}")
-    ask_show(:current_bank, "$#{bank}")
-    ask_show(:your_cards, cards)
+    ask_show(:current_bank, "$#{player.bank}")
+    ask_show(:your_cards, "#{player.show_cards}")
     ask_show(:your_score, score)
     ask_show(:my_cards)
   end

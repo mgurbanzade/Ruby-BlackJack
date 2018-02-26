@@ -27,15 +27,6 @@ module HelperMethods
     values.sum
   end
 
-  def start_new_round
-    checkout(player, bet)
-    checkout(dealer, bet)
-    player.current_cards.clear
-    dealer.current_cards.clear
-    give_two_cards(player)
-    give_two_cards(dealer)
-  end
-
   def play_again
     view.division_line
     view.play_again?
@@ -50,24 +41,6 @@ module HelperMethods
     return player if score(player) > score(dealer) && score(player) <= 21
     return dealer if score(dealer) > score(player) && score(dealer) <= 21
     'draw' if score(dealer) == score(player)
-  end
-
-  def randomcard
-    limit = deck.deck.length - 1
-    random = rand(0..limit)
-    deck.deck[random]
-  end
-
-  def give_one_card(whom)
-    card = randomcard
-    whom.current_cards << card
-    deck.deck.delete(card)
-  end
-
-  def give_two_cards(whom)
-    2.times do
-      give_one_card(whom)
-    end
   end
 
   def can_play_again?
