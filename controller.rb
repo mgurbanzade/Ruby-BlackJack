@@ -38,6 +38,10 @@ class Controller
     player.bank > 10 && dealer.bank > 10
   end
 
+  def can_take_card?(user)
+    user.current_cards.length < 3
+  end
+
   def card_score_count(user, opponent)
     score(user) > 21 || opponent.current_cards.length > 2
   end

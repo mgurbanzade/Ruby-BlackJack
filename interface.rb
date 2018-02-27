@@ -48,6 +48,10 @@ class Interface
     ask_show(:your_turn)
   end
 
+  def card_limit
+    ask_show(:card_limit)
+  end
+
   def bye
     ask_show(:bye)
   end

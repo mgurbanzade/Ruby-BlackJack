@@ -27,7 +27,7 @@ class Game
       controller.start_new_round(player, dealer, deck, bet)
       control_player
       response = play_again if controller.can_play_again?(player, dealer)
-      start_game if response == 1
+      return start_game if response == 1
       break if response == 2
     end
   end
@@ -48,9 +48,8 @@ class Game
       view.dealers_turn
       dealer_actions
     when 2
-      player.take_card(deck)
-      view.player_extra
-      view.player_score(controller.score(player))
+      return view.card_limit unless controller.can_take_card?(player)
+      extra_card if controller.can_take_card?(player)
       return reveal_cards if round_over_for?(player, dealer)
       dealer_actions
     when 3
@@ -61,15 +60,20 @@ class Game
   def dealer_actions
     return view.players_turn if controller.score(dealer) >= 17
     if controller.score(dealer) < 17
-      dealer.take_card(deck)
-      view.dealer_extra
+      dealer.take_card(deck) if controller.can_take_card?(dealer)
+      view.dealer_extra if controller.can_take_card?(dealer)
       return reveal_cards if round_over_for?(dealer, player)
       view.your_turn
     end
   end
 
+  def extra_card
+    player.take_card(deck)
+    view.player_extra
+    view.player_score(controller.score(player))
+  end
+
   def reveal_cards
-    system('clear')
     view.reveal(player, controller, dealer)
     round_results
     self.winner = true
