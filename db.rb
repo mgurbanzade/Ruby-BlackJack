@@ -1,8 +1,5 @@
 ASK_SHOW = {
   name: 'What is your name?',
-  greet: 'I don\'t care, loser! You\'re gonna empty your bank.',
-  bank: 'Your Bank consists of poor',
-  start: 'Press Enter and watch me win!',
   your_cards: 'Your cards: ',
   your_score: 'Your score:',
   my_cards: 'My cards: ** **',
@@ -15,7 +12,7 @@ ASK_SHOW = {
   reveal: '3) Reveal cards',
   player_skips: 'You skipped. Now it\'s my turn',
   dealer_skips: 'I skipped. Your turn.',
-  player_extra: 'You took 1 extra card:',
+  player_extra: 'You took 1 extra card.',
   dealer_extra: 'I took 1 extra card.',
   dealer_cards: 'My cards:',
   player_won: 'Okay. You win. But remember, next time I\'ll destroy you!',
@@ -26,5 +23,6 @@ ASK_SHOW = {
   dealer_reveal: 'My cards:',
   draw: 'Draw! Good 4 ya.',
   your_turn: 'Your Turn!',
-  bye: 'Bye-bye!'
+  card_limit: 'You cannot take more than 3 cards!',
+  exit_options: 'Type 1 or 2!'
 }.freeze
