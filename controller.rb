@@ -3,20 +3,6 @@ require_relative 'card'
 require_relative 'deck'
 
 class Controller
-
-  def score(user)
-    values = []
-    user.current_cards.each do |card|
-      values << 10 if card.symbol?(card.name)
-      values << 11 if card.ace?(card.name)
-      values << card.name if card.name.is_a? Integer
-    end
-
-    values[values.index(11)] = 1 if values.include?(11) && values.sum > 21
-    values[values.index(1)] = 11 if values.include?(1) && values.sum + 10 <= 21
-    values.sum
-  end
-
   def start_new_round(player, dealer, deck, bet)
     checkout(player, bet)
     checkout(dealer, bet)
@@ -27,23 +13,19 @@ class Controller
   end
 
   def winner(player, dealer)
-    return player if score(dealer) > 21
-    return dealer if score(player) > 21
-    return player if score(player) > score(dealer) && score(player) <= 21
-    return dealer if score(dealer) > score(player) && score(dealer) <= 21
-    'draw' if score(dealer) == score(player)
+    return player if dealer.score > 21
+    return dealer if player.score > 21
+    return player if player.score > dealer.score && player.score <= 21
+    return dealer if dealer.score > player.score && dealer.score <= 21
+    'draw' if dealer.score == player.score
   end
 
   def can_play_again?(player, dealer)
     player.bank > 10 && dealer.bank > 10
   end
 
-  def can_take_card?(user)
-    user.current_cards.length < 3
-  end
-
-  def card_score_count(user, opponent)
-    score(user) > 21 || opponent.current_cards.length > 2
+  def can_reveal?(user, opponent)
+    user.score > 21 || opponent.current_cards.length > 2
   end
 
   def checkout(user, amount)
@@ -56,5 +38,9 @@ class Controller
 
   def player_response
     gets.chomp.to_i
+  end
+
+  def proper_response?(response)
+    response == 1 || response == 2
   end
 end

@@ -23,5 +23,6 @@ ASK_SHOW = {
   dealer_reveal: 'My cards:',
   draw: 'Draw! Good 4 ya.',
   your_turn: 'Your Turn!',
-  card_limit: 'You cannot take more than 3 cards!'
+  card_limit: 'You cannot take more than 3 cards!',
+  exit_options: 'Type 1 or 2!'
 }.freeze

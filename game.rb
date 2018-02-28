@@ -11,9 +11,6 @@ class Game
     @controller = Controller.new
     @player = User.new(controller.ask_player_name)
     @dealer = User.new
-    @deck = Deck.new
-    @bet = 10
-    @winner = false
     start_game
   end
 
@@ -27,6 +24,7 @@ class Game
       controller.start_new_round(player, dealer, deck, bet)
       control_player
       response = play_again if controller.can_play_again?(player, dealer)
+      return view.exit_options unless controller.proper_response?(response)
       return start_game if response == 1
       break if response == 2
     end
@@ -34,7 +32,7 @@ class Game
 
   def control_player
     loop do
-      view.start_messages(bet, player, controller.score(player))
+      view.start_messages(bet, player, player.score)
       view.show_player_actions
       player_action = controller.player_response
       player_actions(player_action)
@@ -50,9 +48,9 @@ class Game
       dealer_actions
     when 2
       clear
-      return view.card_limit unless controller.can_take_card?(player)
-      extra_card if controller.can_take_card?(player)
-      return reveal_cards if round_over_for?(player, dealer)
+      return view.card_limit unless player.can_take_card?
+      extra_card if player.can_take_card?
+      return reveal_cards if controller.can_reveal?(player, dealer)
       dealer_actions
     when 3
       clear
@@ -61,11 +59,11 @@ class Game
   end
 
   def dealer_actions
-    return view.players_turn if controller.score(dealer) >= 17
-    if controller.score(dealer) < 17
-      view.dealer_extra if controller.can_take_card?(dealer)
-      dealer.take_card(deck) if controller.can_take_card?(dealer)
-      return reveal_cards if round_over_for?(dealer, player)
+    return view.players_turn if dealer.score >= 17
+    if dealer.score < 17
+      view.dealer_extra if dealer.can_take_card?
+      dealer.take_card(deck) if dealer.can_take_card?
+      return reveal_cards if controller.can_reveal?(dealer, player)
       view.your_turn
     end
   end
@@ -73,7 +71,7 @@ class Game
   def extra_card
     player.take_card(deck)
     view.player_extra
-    view.player_score(controller.score(player))
+    view.player_score(player.score)
   end
 
   def reveal_cards
@@ -107,10 +105,6 @@ class Game
 
   def clear
     system('clear')
-  end
-
-  def round_over_for?(user, opponent)
-    controller.card_score_count(user, opponent)
   end
 end
 
