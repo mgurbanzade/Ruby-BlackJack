@@ -45,14 +45,17 @@ class Game
   def player_actions(action)
     case action
     when 1
+      clear
       view.dealers_turn
       dealer_actions
     when 2
+      clear
       return view.card_limit unless controller.can_take_card?(player)
       extra_card if controller.can_take_card?(player)
       return reveal_cards if round_over_for?(player, dealer)
       dealer_actions
     when 3
+      clear
       return reveal_cards
     end
   end
@@ -60,8 +63,8 @@ class Game
   def dealer_actions
     return view.players_turn if controller.score(dealer) >= 17
     if controller.score(dealer) < 17
-      dealer.take_card(deck) if controller.can_take_card?(dealer)
       view.dealer_extra if controller.can_take_card?(dealer)
+      dealer.take_card(deck) if controller.can_take_card?(dealer)
       return reveal_cards if round_over_for?(dealer, player)
       view.your_turn
     end
@@ -101,6 +104,10 @@ class Game
   end
 
   private
+
+  def clear
+    system('clear')
+  end
 
   def round_over_for?(user, opponent)
     controller.card_score_count(user, opponent)
